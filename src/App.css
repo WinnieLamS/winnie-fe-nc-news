@@ -42,3 +42,12 @@ header, footer {
   width: 80%; 
   max-width: 600px; 
 }
+
+.loading-container {
+  text-align: center;
+  margin-top: 50px;
+}
+.loading-container img {
+  width: 200px;
+  height: auto;
+}
