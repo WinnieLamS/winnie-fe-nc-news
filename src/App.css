@@ -34,8 +34,8 @@ header, footer {
 }
 
 .article_list {
-  border: 15px solid rgb(35, 39, 47);
-  background-color: hsl(130, 7%, 65%);
+  border: 15px solid rgb(50, 70, 108);
+  background-color: hsl(0, 0%, 100%);
   border-radius: 25px;
   box-shadow: 0px 20px 20px hsla(120, 9%, 4%, 0.7);
   margin: 5px auto;
@@ -43,11 +43,41 @@ header, footer {
   max-width: 600px; 
 }
 
-.loading-container {
+.loading_container {
   text-align: center;
   margin-top: 50px;
 }
-.loading-container img {
+.loading_container img {
   width: 200px;
   height: auto;
+}
+
+.comment_section {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.comment_author {
+  font-weight: bold;
+  margin-bottom: 5px;
+  margin-right: 100%;
+}
+
+.comment_body {
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.comment_meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.comment_votes, .comment_time {
+  margin-right: 10px;
 }

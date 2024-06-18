@@ -1,8 +1,15 @@
-export const ArticleCard = ({ article }) => {
+import { CommentList } from "./CommentList";
+import { Loading } from "./Loading";
+
+export const ArticleCard = ({ article, isLoading}) => {
+
+  if (isLoading) {
+    return <Loading />;
+  }
     return (
       <>
       <section className="article_card">
-        <h3>{article.title}</h3>
+        <h2>{article.title}</h2>
         <p>Topic: {article.topic}</p>
         <p>Author: {article.author}</p>
         <img src={article.article_img_url} alt={article.title} />
@@ -12,7 +19,7 @@ export const ArticleCard = ({ article }) => {
         <p>Comments: {article.comment_count}</p>
       </section>
       <section className="article_comment">
-        <p>comment zone</p>
+        <CommentList article={article} />
       </section>
       </>
     );

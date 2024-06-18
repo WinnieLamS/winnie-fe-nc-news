@@ -1,20 +1,24 @@
 import { useState, useEffect } from "react";
 import { getArticles, getArticleById } from "../Api";
 import { useNavigate } from "react-router-dom";
-import  loadingPink  from "../images/loadingPink.gif";
+import { Loading } from "./LowerComponenets/Loading";
+import { Error } from "./LowerComponenets/Error";
 
-export const Home = ({setArticle}) => {
+export const Home = ({setArticle, isLoading, setIsLoading}) => {
     const navigate = useNavigate();
-    const [articles, setArticles] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    
+    const [articles, setArticles] = useState([]); 
+    const [error, setError] = useState(null);  
     
 
     useEffect(() => {
         setIsLoading(true)
-        getArticles().then((articlesArr) => {
-          setArticles(articlesArr.slice(0, 10));
+        getArticles()
+        .then((articlesArrFromApi) => {
+          setArticles(articlesArrFromApi.slice(0, 10));
           setIsLoading(false)
+        })
+        .catch((error) => {
+            setError(error);
         });
     }, []);
 
@@ -25,21 +29,29 @@ export const Home = ({setArticle}) => {
                 setArticle(articleFromApi);
                 navigate(`/articles/${articleFromApi.title}`); 
                 setIsLoading(false)
-
             })
+            .catch((error) => {
+                console.log(error);
+                setError(error);
+              })
     };
 
-    return isLoading?(
-        <div className="loading-container">
-            <h2>Loading......</h2>
-            <img src={loadingPink} alt="Loading..." />
-        </div>
-    ):(
+    if (isLoading) {
+        return <Loading />; 
+    }
+
+    if (error) {
+        return <Error error={error} />;
+      }
+
+    return (
         <div>
             <h2>The Ten Latest News:</h2>
                 {articles.map((article) => {
                     return (
-                    <div className="article_list" key={article.title} onClick={()=>handleArticleClick(article.article_id)}>
+                    <div className="article_list" 
+                         key={article.article_id} 
+                         onClick={()=>handleArticleClick(article.article_id)}>
                         <h3>{article.title}</h3>
                         <p>Author: {article.author}</p>
                         <img className="article_image" src={article.article_img_url} alt={article.title} />
