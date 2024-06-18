@@ -52,6 +52,44 @@ header, footer {
   height: auto;
 }
 
+.comment_form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  width: 100%; 
+}
+
+.current_username {
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-left: 1%;
+  align-self: flex-start;
+}
+
+.comment_input {
+  width: 100%;
+  box-sizing: border-box; 
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.comment_form button {
+  align-self: center;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2b5886;
+  color: white;
+  cursor: pointer;
+}
+
+.comment_form button:hover {
+  background-color: #0056b3;
+}
+
 .comment_section {
   border: 1px solid #ccc;
   padding: 10px;

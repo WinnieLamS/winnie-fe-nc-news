@@ -34,3 +34,12 @@ export const getCommentById = (article_id) => {
             throw error; 
         });
 };
+
+export const getUser = (username) => {
+    return ncApi.get(`/users/${username}`).then((response) => {
+        return response.data.userArr[0];
+    })
+    .catch((error) => {
+        throw error; 
+    });
+} 

@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 import { getCommentById } from "../../Api";
 import { Loading } from "./Loading";
 import { Error } from "./Error";
 
-export const CommentList = ({ article }) => {
+export const CommentList = ({ article, error, setError}) => {
+    const {user, setUser} = useContext(UserContext)
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
-    const [author, setAuthor] = useState(''); 
     const [isLoading, setIsLoading] = useState(false); 
-    const [error, setError] = useState(null);
     
     useEffect(() => { 
         setIsLoading(true)
@@ -18,7 +18,8 @@ export const CommentList = ({ article }) => {
           setIsLoading(false)
         })
         .catch((error)=>{
-            setError(error);
+            setError(error)
+            setIsLoading(false)
         });
     }, [article.article_id]);
 
@@ -46,18 +47,20 @@ export const CommentList = ({ article }) => {
         return <Error error={error} />;
       }
 
-    return (
+      return (
         <>
-        <form onSubmit={handleCommentSubmit}>
-            {/* <p>{username}</p> */}
+        {user.username? (
+        <form className="comment_form" onSubmit={handleCommentSubmit}>
+            <p className="current_username">{user.username}</p>
             <input
+                className="comment_input"
                 placeholder="Write a comment..."
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 required
-            ></input>
+            />
             <button type="submit">Post</button>
-        </form>
+        </form>) : null}
         {comments.map((comment) => (
             <section key={comment.comment_id} className="comment_section">
                 <div className="comment_author">{comment.author}</div>
@@ -69,5 +72,5 @@ export const CommentList = ({ article }) => {
             </section>
         ))}
         </>
-    )
+    );
 }

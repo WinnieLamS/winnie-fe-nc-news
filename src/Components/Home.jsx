@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
-import { getArticles, getArticleById } from "../Api";
 import { useNavigate } from "react-router-dom";
+import { getArticles, getArticleById } from "../Api";
 import { Loading } from "./LowerComponenets/Loading";
 import { Error } from "./LowerComponenets/Error";
+import { LogIn } from "./LowerComponenets/LogIn";
+import { SignUp } from "./LowerComponenets/SignUp";
 
-export const Home = ({setArticle, isLoading, setIsLoading}) => {
+export const Home = ({setArticle, isLoading, setIsLoading, error, setError}) => {
     const navigate = useNavigate();
     const [articles, setArticles] = useState([]); 
-    const [error, setError] = useState(null);  
-    
-
+    const [logIn, setLogIn] = useState(false);
+    const [signUp, setSignUp] = useState(false);
+   
     useEffect(() => {
         setIsLoading(true)
         getArticles()
@@ -19,6 +21,7 @@ export const Home = ({setArticle, isLoading, setIsLoading}) => {
         })
         .catch((error) => {
             setError(error);
+            setIsLoading(false);
         });
     }, []);
 
@@ -31,8 +34,8 @@ export const Home = ({setArticle, isLoading, setIsLoading}) => {
                 setIsLoading(false)
             })
             .catch((error) => {
-                console.log(error);
                 setError(error);
+                setIsLoading(false);
               })
     };
 
@@ -44,8 +47,30 @@ export const Home = ({setArticle, isLoading, setIsLoading}) => {
         return <Error error={error} />;
       }
 
+    function handleLogInClick (){
+        setLogIn(!logIn)
+    }
+    function handleSignUpClick (){
+        setSignUp(!signUp)
+    }
+
+
+    
+    // if (signUp){
+    //     return (
+    //         <SignUp username={username} setUsername={setUsername}/>
+    //     )
+    // }
+    
+
+
+
     return (
         <div>
+            <section>
+            <button type="button" onClick={() => navigate("/login")}>Log In</button>            {/* <button type="button" onClick={handleSignUpClick} value={signUp}> Sign Up</button> */}
+            </section>
+            <section>
             <h2>The Ten Latest News:</h2>
                 {articles.map((article) => {
                     return (
@@ -58,6 +83,7 @@ export const Home = ({setArticle, isLoading, setIsLoading}) => {
                     </div>
                     )
                 })}
+            </section>
         </div>
     );
 }
