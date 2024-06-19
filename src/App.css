@@ -3,6 +3,8 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  color: #213547;
+  background-color: #ffffff;
 }
 
 header, footer {
@@ -10,6 +12,8 @@ header, footer {
   margin: 0 auto;
   padding: 1rem; 
   text-align: center;
+  color: #213547;
+  background-color: #ffffff;
 }
 
 .article_card {
@@ -17,6 +21,7 @@ header, footer {
   flex-direction: column;
   margin: 0 auto;
   max-width: 600px;
+  color: #213547;
 }
 
 .article_image {
@@ -31,6 +36,8 @@ header, footer {
   border: 2px black solid;
   display: flex;
   flex-direction: column;
+  color: #213547;
+  background-color: #ffffff;
 }
 
 .article_list {
@@ -41,6 +48,7 @@ header, footer {
   margin: 5px auto;
   width: 80%; 
   max-width: 600px; 
+  color: #213547;
 }
 
 .loading_container {
@@ -55,16 +63,30 @@ header, footer {
 .comment_form {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   margin-bottom: 20px;
   width: 100%; 
+  box-sizing: border-box; 
+  padding: 10px;
 }
 
-.current_username {
+.username_button {
   font-weight: bold;
+  margin-top: 10px;
   margin-bottom: 10px;
-  margin-left: 1%;
   align-self: flex-start;
+}
+
+.login_for_comment {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.login_for_comment button {
+  padding: 3px 5px; 
+  font-size: 0.7em;
+  margin: 3px;
 }
 
 .comment_input {
@@ -74,6 +96,7 @@ header, footer {
   margin-bottom: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  height: 5em; 
 }
 
 .comment_form button {
@@ -101,7 +124,6 @@ header, footer {
 .comment_author {
   font-weight: bold;
   margin-bottom: 5px;
-  margin-right: 100%;
 }
 
 .comment_body {

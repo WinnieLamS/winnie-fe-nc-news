@@ -24,6 +24,19 @@ export const getArticleById = (article_id) => {
         });
 };
 
+export const patchVote = (article_id, voteChange) => {
+const patchBody = { inc_votes: voteChange};
+
+    return ncApi
+        .patch(`/articles/${article_id}`, patchBody)
+        .then((response) => {
+            return response.data.article;
+        })
+        .catch((error) => {
+            throw error; 
+        });
+};
+
 export const getCommentById = (article_id) => {
     return ncApi
         .get(`/articles/${article_id}/comments`)
@@ -35,18 +48,22 @@ export const getCommentById = (article_id) => {
         });
 };
 
-export const patchComment = (article_id) => {
-const patchBody = { inc_votes: 1};
+export const postComment = (article_id, username, body) => {
+    const postBody = { 
+        username: username,
+        body: body
+    };
+    
+        return ncApi
+            .post(`/articles/${article_id}/comments`, postBody)
+            .then((response) => {
+                return response.data.comment;
+            })
+            .catch((error) => {
+                throw error; 
+            });
+    };
 
-    return ncApi
-        .patch(`/articles/${article_id}`, patchBody)
-        .then((response) => {
-            return response.data.comment;
-        })
-        .catch((error) => {
-            throw error; 
-        });
-};
 
 export const getUser = (username) => {
     return ncApi.get(`/users/${username}`).then((response) => {
