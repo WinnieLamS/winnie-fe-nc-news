@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { getArticles, getArticleById } from "../Api";
 import { Loading } from "./LowerComponenets/Loading";
@@ -11,6 +12,7 @@ export const Home = ({setArticle, isLoading, setIsLoading, error, setError}) => 
     const [articles, setArticles] = useState([]); 
     const [logIn, setLogIn] = useState(false);
     const [signUp, setSignUp] = useState(false);
+    const { user, setUser } = useContext(UserContext);
    
     useEffect(() => {
         setIsLoading(true)
@@ -55,35 +57,37 @@ export const Home = ({setArticle, isLoading, setIsLoading, error, setError}) => 
     }
 
 
-    
-    // if (signUp){
-    //     return (
-    //         <SignUp username={username} setUsername={setUsername}/>
-    //     )
-    // }
-    
-
-
-
     return (
         <div>
-            <section>
-            <button type="button" onClick={() => navigate("/login")}>Log In</button>            {/* <button type="button" onClick={handleSignUpClick} value={signUp}> Sign Up</button> */}
+            {Object.keys(user).length === 0 ? (
+                <section>
+                <button type="button" onClick={() => navigate("/log_in")}>Log In</button> 
+                <button type="button" onClick={() => navigate("/sign_up")}>Sign Up</button>
             </section>
+            ) : (
+                <section>
+                    <h3 className="home_username">{user.username}</h3>
+                    <button className="log_out" type="button" onClick={() => setUser({})}>Log out</button>
+                </section>
+            )}
             <section>
-            <h2>The Ten Latest News:</h2>
-                {articles.map((article) => {
-                    return (
-                    <div className="article_list" 
-                         key={article.article_id} 
-                         onClick={()=>handleArticleClick(article.article_id)}>
-                        <h3>{article.title}</h3>
+                <h3>The Ten Latest News:</h3>
+                {articles.map((article) => (
+                    <div
+                        className="article_list"
+                        key={article.article_id}
+                        onClick={() => handleArticleClick(article.article_id)}
+                    >
+                        <h4>{article.title}</h4>
                         <p>Author: {article.author}</p>
-                        <img className="article_image" src={article.article_img_url} alt={article.title} />
+                        <img
+                            className="article_image"
+                            src={article.article_img_url}
+                            alt={article.title}
+                        />
                     </div>
-                    )
-                })}
+                ))}
             </section>
         </div>
     );
-}
+};

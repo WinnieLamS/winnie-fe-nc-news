@@ -14,7 +14,17 @@ export const User = () => {
 
     return (
         <>
-        <h1>user details</h1>
+        <nav>
+            <p>nav to other pages</p>
+        </nav>
+        <section>
+        <h2>Hello {user.username} !</h2>
+        <img className="user_img" src={user.avatar_url} alt={user.username} />
+        <h3>Name: {user.name}</h3>
+        </section>
+        <section className="user_comment">
+            <p>get comment by username later</p>
+        </section>
         <section>
             <button onClick={handleLogOutClick}>Log Out</button>
         </section>

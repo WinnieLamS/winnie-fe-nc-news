@@ -35,6 +35,19 @@ export const getCommentById = (article_id) => {
         });
 };
 
+export const patchComment = (article_id) => {
+const patchBody = { inc_votes: 1};
+
+    return ncApi
+        .patch(`/articles/${article_id}`, patchBody)
+        .then((response) => {
+            return response.data.comment;
+        })
+        .catch((error) => {
+            throw error; 
+        });
+};
+
 export const getUser = (username) => {
     return ncApi.get(`/users/${username}`).then((response) => {
         return response.data.userArr[0];
@@ -43,3 +56,12 @@ export const getUser = (username) => {
         throw error; 
     });
 } 
+
+export const postUser = (postObj) => {
+    return ncApi.post('/users', postObj).then((response)=>{
+        console.log(response.data, "<<<after post");
+        return response.data.user;
+    }).catch((err)=>{
+        console.log(err);      
+    })
+}
