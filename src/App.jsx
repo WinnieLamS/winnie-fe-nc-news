@@ -9,6 +9,7 @@ import { CommentList } from './Components/LowerComponenets/CommentList';
 import { User } from './Components/User';
 import { UserProvider } from './contexts/UserContext';
 import { LogIn } from './Components/LowerComponenets/LogIn';
+import { SignUp } from './Components/LowerComponenets/SignUp';
 
 
 function App() {
@@ -27,10 +28,14 @@ function App() {
         <Route path='/' element={<Home setArticle={setArticle} 
         isLoading={isLoading} setIsLoading={setIsLoading}
         setError={setError}/>} />
-        <Route path='/articles/:title' element={<ArticleCard article={article} isLoading={isLoading} setIsLoading={setIsLoading}/>} />
+        <Route path='/articles/:title' element={<ArticleCard 
+        article={article} setArticle={setArticle} 
+        isLoading={isLoading} setIsLoading={setIsLoading}
+        setError={setError}/>} />
         <Route path='/comments' element={<CommentList setError={setError}/>} />
         <Route path='/user' element={<User />} />
-        <Route path='/login' element={<LogIn setError={setError}/>} />
+        <Route path='/log_in' element={<LogIn setError={setError}/>} />
+        <Route path='/sign_up' element={<SignUp setError={setError}/>} />
       </Routes>
       <Footer />
     </BrowserRouter>

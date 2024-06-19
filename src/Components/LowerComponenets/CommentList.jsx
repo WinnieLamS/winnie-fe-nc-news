@@ -5,7 +5,7 @@ import { Loading } from "./Loading";
 import { Error } from "./Error";
 
 export const CommentList = ({ article, error, setError}) => {
-    const {user, setUser} = useContext(UserContext)
+    const {user} = useContext(UserContext)
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [isLoading, setIsLoading] = useState(false); 
@@ -67,7 +67,7 @@ export const CommentList = ({ article, error, setError}) => {
                 <div className="comment_body">{comment.body}</div>
                 <div className="comment_meta">
                     <span className="comment_votes">Vote: {comment.votes}</span>
-                    <span className="comment_time">Create Time: {formatDate(comment.created_at)}</span>
+                    <span className="comment_time">Create at: {formatDate(comment.created_at)}</span>
                 </div>
             </section>
         ))}

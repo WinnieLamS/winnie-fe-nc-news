@@ -14,7 +14,7 @@ export const LogIn = ({ setError}) => {
         getUser(inputUsername).then((userFromApi) => {  
             console.log(userFromApi, "userFromApi");     
             setUser(userFromApi)
-            // return navigate("/user");
+            return navigate("/user")
         })
         .catch((error) => {
             setError(error);
