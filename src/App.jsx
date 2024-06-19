@@ -10,6 +10,7 @@ import { User } from './Components/User';
 import { UserProvider } from './contexts/UserContext';
 import { LogIn } from './Components/LowerComponenets/LogIn';
 import { SignUp } from './Components/LowerComponenets/SignUp';
+import { Error } from './Components/LowerComponenets/Error';
 
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
         <Route path='/' element={<Home setArticle={setArticle} 
         isLoading={isLoading} setIsLoading={setIsLoading}
         setError={setError}/>} />
-        <Route path='/articles/:title' element={<ArticleCard 
+        <Route path='/articles/:article_id' element={<ArticleCard 
         article={article} setArticle={setArticle} 
         isLoading={isLoading} setIsLoading={setIsLoading}
         setError={setError}/>} />
@@ -36,6 +37,7 @@ function App() {
         <Route path='/user' element={<User />} />
         <Route path='/log_in' element={<LogIn setError={setError}/>} />
         <Route path='/sign_up' element={<SignUp setError={setError}/>} />
+        <Route path='/error' element={<Error error={error}/>} />
       </Routes>
       <Footer />
     </BrowserRouter>

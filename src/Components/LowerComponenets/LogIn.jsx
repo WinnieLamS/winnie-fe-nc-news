@@ -1,38 +1,40 @@
-import { useState, useContext } from "react"
+import { useState, useContext } from "react";
 import { getUser } from "../../Api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
+import { Error } from "./Error";
 
-
-
-export const LogIn = ({ setError}) => {
-    const {user, setUser} = useContext(UserContext)
+export const LogIn = ({ setError }) => {
+    const { setUser } = useContext(UserContext);
     const [inputUsername, setInputUsername] = useState("");
     const navigate = useNavigate();
+    const location = useLocation();
 
-    function handleClick (){
-        getUser(inputUsername).then((userFromApi) => {  
-            console.log(userFromApi, "userFromApi");     
-            setUser(userFromApi)
-            return navigate("/user")
-        })
-        .catch((error) => {
-            setError(error);
-        });   
-    }
+    const from = location.state?.from?.pathname || "/";
 
-    function handleChange (e) {
-        setInputUsername(e.target.value)
-    }
+    const handleClick = (e) => {
+        e.preventDefault();
+        getUser(inputUsername)
+            .then((userFromApi) => {
+                setUser(userFromApi);
+                navigate(from, { replace: true });
+            })
+            .catch((error) => {
+                setError(error);
+                navigate("/error");
+            });
+    };
 
-    
+    const handleChange = (e) => {
+        setInputUsername(e.target.value);
+    };
 
     return (
         <>
-        <form >
-            <input placeholder="Username" type="text" onChange={handleChange} required />
-            <button type="button" onClick={handleClick} value={inputUsername}>Log In</button>
-        </form>
+            <form>
+                <input placeholder="Username" type="text" onChange={handleChange} required />
+                <button type="button" onClick={handleClick}>Log In</button>
+            </form>
         </>
-    )
-}
+    );
+};
