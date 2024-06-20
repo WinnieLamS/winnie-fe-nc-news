@@ -11,6 +11,7 @@ import { LogIn } from './Components/LowerComponenets/LogIn';
 import { SignUp } from './Components/LowerComponenets/SignUp';
 import { Error } from './Components/LowerComponenets/Error';
 import { CommentSection } from './Components/LowerComponenets/CommentSection';
+import { ArticleList } from './Components/LowerComponenets/ArticleLIst';
 
 
 function App() {
@@ -26,10 +27,11 @@ function App() {
     <BrowserRouter>
       <Header />
       <Routes>
+        <Route path='/articles/:topic' element={<ArticleList />} />
         <Route path='/' element={<Home setArticle={setArticle} 
         isLoading={isLoading} setIsLoading={setIsLoading}
         setError={setError}/>} />
-        <Route path='/articles/:article_id' element={<ArticleCard 
+        <Route path='/article/:article_id' element={<ArticleCard 
         article={article} setArticle={setArticle} 
         isLoading={isLoading} setIsLoading={setIsLoading}
         setError={setError}/>} />

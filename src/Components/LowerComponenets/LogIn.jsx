@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import { Error } from "./Error";
 
-export const LogIn = ({ setError }) => {
+export const LogIn = ({ error, setError }) => {
     const { setUser } = useContext(UserContext);
     const [inputUsername, setInputUsername] = useState("");
     const navigate = useNavigate();
@@ -28,6 +28,10 @@ export const LogIn = ({ setError }) => {
     const handleChange = (e) => {
         setInputUsername(e.target.value);
     };
+
+    if (error) {
+        return <Error error={error} />;
+    }
 
     return (
         <>

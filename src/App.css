@@ -141,3 +141,22 @@ header, footer {
 .comment_votes, .comment_time {
   margin-right: 10px;
 }
+
+nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+nav button {
+  padding: 8px 16px;
+  background-color: #2b5886;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+nav button:hover {
+  background-color: #0056b3;
+}
+

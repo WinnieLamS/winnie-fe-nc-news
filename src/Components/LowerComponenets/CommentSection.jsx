@@ -12,13 +12,15 @@ export const CommentSection = ({ article, setError, setArticle }) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [toggle, setToggle] = useState(false);
 
     useEffect(() => {
         setIsLoading(true);
         if (article.article_id) {
             getCommentById(article.article_id)
                 .then((commentArrFromApi) => {
-                    setComments(commentArrFromApi);
+                    const sortedComments = commentArrFromApi.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                    setComments(sortedComments);
                     setIsLoading(false);
                 })
                 .catch((error) => {
@@ -27,10 +29,11 @@ export const CommentSection = ({ article, setError, setArticle }) => {
                     navigate("/error");
                 });
         }
-    }, [article, setError, navigate]);
+    }, [article]);
 
     const handleCommentSubmit = (e) => {
         e.preventDefault();
+        setToggle(true);
         postComment(article.article_id, user.username, newComment)
             .then((newCommentFromApi) => {
                 setNewComment("");
@@ -39,10 +42,13 @@ export const CommentSection = ({ article, setError, setArticle }) => {
                     ...currentArticle,
                     comment_count: currentArticle.comment_count + 1 
                 }));
+                setIsLoading(false);
+                setToggle(false);
             })
             .catch((error) => {
                 setError(error);
                 navigate("/error");
+                setToggle(false);
             });
     };
 
@@ -64,7 +70,7 @@ export const CommentSection = ({ article, setError, setArticle }) => {
                         onChange={(e) => setNewComment(e.target.value)}
                         required
                     />
-                    <button type="submit">Submit</button>
+                    <button type="submit" disabled={toggle}>Submit</button>
                 </form>
             ) : (
                 <form className="comment_form" onSubmit={(e) => e.preventDefault()}>

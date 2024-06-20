@@ -76,8 +76,14 @@ export const deleteComment = (comment_id) => {
             });
     };
 
-
-
+export const getTopics = () => {
+    return ncApi.get(`/topics`).then((response) => {
+        return response.data.topics;
+    })
+    .catch((error) => {
+        throw error; 
+    });
+} 
 
 export const getUser = (username) => {
     return ncApi.get(`/users/${username}`).then((response) => {
