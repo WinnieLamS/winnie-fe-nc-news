@@ -22,11 +22,12 @@ export const User = ({}) => {
         <>
         <NavigateBar />
         <section>
-        <h2>Hello {user.username} !</h2>
         <img className="user_img" src={user.avatar_url} alt={user.username} />
+        <h3>Userame: {user.username}</h3>
         <h3>Name: {user.name}</h3>
         </section>
         <section>
+            <button onClick={()=> navigate("/")}>Home Page</button>
             <button onClick={handleLogOutClick}>Log Out</button>
         </section>
         </>

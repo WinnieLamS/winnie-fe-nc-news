@@ -4,6 +4,7 @@ import { getArticleById, patchVote } from "../../Api";
 import { CommentSection } from "./CommentSection";
 import { Loading } from "./Loading";
 import { UserContext } from "../../contexts/UserContext";
+import { NavigateBar } from "./NavigateBar";
 
 export const ArticleCard = ({ article, setArticle, isLoading, setIsLoading, setError }) => {
     const { article_id } = useParams();
@@ -54,6 +55,9 @@ export const ArticleCard = ({ article, setArticle, isLoading, setIsLoading, setE
 
     return (
         <>
+          <NavigateBar />
+         <button onClick={()=> navigate("/")}>Home Page</button>
+         
             {article && (
                 <section className="article_card">
                     <h2>{article.title}</h2>
