@@ -4,8 +4,14 @@ const ncApi = axios.create({
     baseURL: "https://winnie-be-nc-news.onrender.com/api",
 });
 
-export const getArticles = () => {
-    return ncApi.get('/articles').then((response) => {
+export const getArticles = (options) => {
+    
+    return ncApi.get('/articles', {  params: {
+        sort_by: options.sort_by,
+        order: options.order
+    }
+})
+    .then((response) => {
         return response.data.articles;
     })
     .catch((error) => {
@@ -98,7 +104,7 @@ export const postUser = (postObj) => {
     return ncApi.post('/users', postObj).then((response)=>{
         console.log(response.data, "<<<after post");
         return response.data.user;
-    }).catch((err)=>{
-        console.log(err);      
+    }).catch((error)=>{
+        throw error;   
     })
 }

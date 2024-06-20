@@ -142,6 +142,10 @@ header, footer {
   margin-right: 10px;
 }
 
+.navigate_bar{
+  background-color: #00d5c0;
+}
+
 nav {
   display: flex;
   justify-content: space-between;

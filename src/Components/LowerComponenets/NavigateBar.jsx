@@ -29,22 +29,23 @@ export const NavigateBar = () => {
         navigate(`/articles/${topic}`);
     };
 
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    if (error) {
+        return <Error error={error} />;
+    }
+
     return (
-        <div>
+        <section className="navigate_bar">
             <nav style={{ display: "flex", justifyContent: "space-between" }}>
-                <div style={{ display: "flex" }}>
                     {topics.map((topic) => (
-                        <div key={topic.slug} style={{ marginRight: "10px" }}>
+                        <div key={topic.slug} style={{ margin: "10px" }}>
                             <button onClick={() => handleNavClick(topic.slug)}>{topic.slug}</button>
                         </div>
                     ))}
-                </div>
-                {Object.keys(user).length === 0 ? null : (
-                    <button onClick={() => navigate("/user")} style={{ marginLeft: "10px" }}>
-                        User
-                    </button>
-                )}
             </nav>
-        </div>
+    </section>
     );
 };

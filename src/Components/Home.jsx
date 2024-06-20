@@ -22,27 +22,19 @@ export const Home = ({ setArticle, isLoading, setIsLoading, error, setError }) =
     }
 
 
-    const handleLogInClick = () => {
-        navigate("/log_in", { state: { from: location } });
-    };
-
-    const handleSignUpClick = () => {
-        navigate("/sign_up", { state: { from: location } });
-    };
-
     return (
         <>
-        <NavigateBar />
         <div>
             {Object.keys(user).length === 0 ? (
                 <section>
-                    <button type="button" onClick={handleLogInClick}>Log In</button>
-                    <button type="button" onClick={handleSignUpClick}>Sign Up</button>
+                    <button type="button" onClick={()=>navigate("/log_in", { state: { from: location } })}>Log In</button>
+                    <button type="button" onClick={()=>navigate("/sign_up", { state: { from: location } })}>Sign Up</button>
                 </section>
             ) : (
                 <section>
-                    <h3 className="home_username">{user.username}</h3>
-                    <button className="log_out" type="button" onClick={() => setUser({})}>Log out</button>
+                     <button type="button" onClick={() => navigate("/user")} className="username_button">
+                        Hello {user.username} !
+                    </button>
                 </section>
             )}
             <section>
