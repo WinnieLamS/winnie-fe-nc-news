@@ -22,7 +22,7 @@ export const ArticleCard = ({ article, setArticle, isLoading, setIsLoading, setE
                 setIsLoading(false);
                 return navigate("/error")
             });
-    }, [article_id, setArticle, setIsLoading, setError]);
+    }, [article_id]);
 
     const formatDate = (dateString) => {
         const options = { 
