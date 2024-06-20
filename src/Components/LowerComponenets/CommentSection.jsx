@@ -3,8 +3,9 @@ import { UserContext } from "../../contexts/UserContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getCommentById, postComment } from "../../Api";
 import { Loading } from "./Loading";
+import { CommentCard } from "./CommentCard";
 
-export const CommentList = ({ article, setError }) => {
+export const CommentSection = ({ article, setError, setArticle }) => {
     const { user } = useContext(UserContext);
     const navigate = useNavigate();
     const location = useLocation();
@@ -14,14 +15,13 @@ export const CommentList = ({ article, setError }) => {
 
     useEffect(() => {
         setIsLoading(true);
-        if (article && article.article_id) {
+        if (article.article_id) {
             getCommentById(article.article_id)
                 .then((commentArrFromApi) => {
                     setComments(commentArrFromApi);
                     setIsLoading(false);
                 })
                 .catch((error) => {
-                    console.error("Error fetching comments:", error);
                     setError(error);
                     setIsLoading(false);
                     navigate("/error");
@@ -29,26 +29,18 @@ export const CommentList = ({ article, setError }) => {
         }
     }, [article, setError, navigate]);
 
-    const formatDate = (dateString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        };
-        return new Date(dateString).toLocaleDateString('en-GB', options);
-    };
-
     const handleCommentSubmit = (e) => {
         e.preventDefault();
         postComment(article.article_id, user.username, newComment)
             .then((newCommentFromApi) => {
                 setNewComment("");
                 setComments((currentComments) => [newCommentFromApi, ...currentComments]);
+                setArticle((currentArticle) => ({
+                    ...currentArticle,
+                    comment_count: currentArticle.comment_count + 1 
+                }));
             })
             .catch((error) => {
-                console.error("Error posting comment:", error);
                 setError(error);
                 navigate("/error");
             });
@@ -93,16 +85,7 @@ export const CommentList = ({ article, setError }) => {
                     />
                 </form>
             )}
-            {comments.map((comment) => (
-                <section key={comment.comment_id} className="comment_section">
-                    <div className="comment_author">{comment.author}</div>
-                    <div className="comment_body">{comment.body}</div>
-                    <div className="comment_meta">
-                        <span className="comment_votes">Vote: {comment.votes}</span>
-                        <span className="comment_time">Created at: {formatDate(comment.created_at)}</span>
-                    </div>
-                </section>
-            ))}
+            <CommentCard comments={comments} setComments={setComments} user={user} article_id={article.article_id} setError={setError} setArticle={setArticle}/>
         </>
     );
 };

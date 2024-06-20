@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getArticleById, patchVote } from "../../Api";
-import { CommentList } from "./CommentList";
+import { CommentSection } from "./CommentSection";
 import { Loading } from "./Loading";
 import { UserContext } from "../../contexts/UserContext";
 
@@ -74,7 +74,7 @@ export const ArticleCard = ({ article, setArticle, isLoading, setIsLoading, setE
                 </section>
             )}
             <section className="article_comment">
-                <CommentList article={article} />
+                <CommentSection article={article} setArticle={setArticle} setError={setError}/>
             </section>
         </>
     );

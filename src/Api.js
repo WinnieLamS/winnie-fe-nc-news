@@ -64,6 +64,20 @@ export const postComment = (article_id, username, body) => {
             });
     };
 
+export const deleteComment = (comment_id) => {
+    console.log(comment_id);
+        return ncApi
+            .delete(`/comments/${comment_id}`)
+            .then(() => {
+              
+            })
+            .catch((error) => {
+                throw error; 
+            });
+    };
+
+
+
 
 export const getUser = (username) => {
     return ncApi.get(`/users/${username}`).then((response) => {
