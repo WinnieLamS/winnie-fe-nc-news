@@ -11,6 +11,7 @@ export const NavigateBar = ({setSelectedTopic}) => {
     
 
     useEffect(() => {
+        setIsLoading(true)
         getTopics()
             .then((topicsFromApi) => {
                 setTopics(topicsFromApi);

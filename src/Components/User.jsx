@@ -28,7 +28,6 @@ export const User = ({}) => {
 
     return (
         <>
-        <NavigateBar />
         <section>
         <img className="user_img" src={user.avatar_url} alt={user.username} />
         <h3>Userame: {user.username}</h3>
