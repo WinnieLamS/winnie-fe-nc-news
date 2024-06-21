@@ -1,15 +1,17 @@
 import { useContext, useEffect } from "react";
+import { UserContext } from "../../contexts/UserContext";
+import { ErrorContext } from "../../contexts/ErrorContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { getArticleById, patchVote } from "../../Api";
 import { CommentSection } from "./CommentSection";
 import { Loading } from "./Loading";
-import { UserContext } from "../../contexts/UserContext";
-import { NavigateBar } from "./NavigateBar";
 
-export const ArticleCard = ({ article, setArticle, isLoading, setIsLoading, setError }) => {
+export const ArticleCard = ({ article, setArticle }) => {
     const { article_id } = useParams();
     const { user } = useContext(UserContext);
+    const { error, setError } = useContext(ErrorContext);
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         setIsLoading(true);
@@ -19,7 +21,7 @@ export const ArticleCard = ({ article, setArticle, isLoading, setIsLoading, setE
                 setIsLoading(false);
             })
             .catch((error) => {
-                setError(error);
+                setError({ message: error.response.data.msg});
                 setIsLoading(false);
                 return navigate("/error")
             });
@@ -36,26 +38,30 @@ export const ArticleCard = ({ article, setArticle, isLoading, setIsLoading, setE
         return new Date(dateString).toLocaleDateString('en-GB', options);
     };
 
-    if (isLoading) {
-        return <Loading />;
-    }
-
-     const handleVote = (voteChange) => {
+    
+    const handleVote = (voteChange) => {
         setArticle((currentArticleData) => {
             return { ...currentArticleData, votes: currentArticleData.votes + voteChange };
         });
         patchVote(article_id, voteChange)
-            .catch((error) => {
-                setError(error);
-                setArticle((currentArticleData) => {
-                    return { ...currentArticleData, votes: currentArticleData.votes - voteChange };
-                });
+        .catch((error) => {
+            setError(error);
+            setArticle((currentArticleData) => {
+                return { ...currentArticleData, votes: currentArticleData.votes - voteChange };
             });
+        });
     };
+    
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    if (error) {
+        return <Error error={error} />;
+      }
 
     return (
         <>
-          <NavigateBar />
          <button onClick={()=> navigate("/")}>Home Page</button>
          
             {article && (

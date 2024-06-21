@@ -1,14 +1,13 @@
 import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../contexts/UserContext"
 import { useNavigate } from "react-router-dom";
-import { CommentCard } from "./LowerComponenets/CommentCard";
 import { NavigateBar } from "./LowerComponenets/NavigateBar";
 
 
 export const User = ({}) => {
     const navigate = useNavigate();
     const {user, setUser} = useContext(UserContext)
-    const [userComment, setUserComment] = useState([])
+    const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
 
@@ -16,6 +15,15 @@ export const User = ({}) => {
     function handleLogOutClick() {
         setUser({})
         return navigate("/")
+    }
+
+
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    if (error) {
+        return <Error error={error} />;
     }
 
     return (

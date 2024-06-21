@@ -1,24 +1,17 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Loading } from "./LowerComponenets/Loading";
-import { Error } from "./LowerComponenets/Error";
-import { NavigateBar } from "./LowerComponenets/NavigateBar";
 import { ArticleList } from "./LowerComponenets/ArticleLIst";
 
-export const Home = ({ setArticle, isLoading, setIsLoading, error, setError }) => {
+export const Home = () => {
     const navigate = useNavigate();
     const location = useLocation();
-
     const { user, setUser } = useContext(UserContext);
+    const [isLoading, setIsLoading] = useState(false);
 
- 
     if (isLoading) {
         return <Loading />;
-    }
-
-    if (error) {
-        return <Error error={error} />;
     }
 
 
@@ -38,7 +31,7 @@ export const Home = ({ setArticle, isLoading, setIsLoading, error, setError }) =
                 </section>
             )}
             <section>
-                <ArticleList />
+                <ArticleList isLoading={isLoading} setIsLoading={setIsLoading}/>
             </section>
         </div>
         </>
