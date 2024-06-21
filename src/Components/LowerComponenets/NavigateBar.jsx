@@ -1,19 +1,16 @@
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../contexts/UserContext";
-import { useNavigate } from "react-router-dom";
 import { getTopics } from "../../Api";
 import { Loading } from "./Loading";
 import { Error } from "./Error";
+import { ErrorContext } from "../../contexts/ErrorContext";
 
-export const NavigateBar = () => {
-    const { user } = useContext(UserContext);
-    const navigate = useNavigate();
+export const NavigateBar = ({setSelectedTopic}) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const { error, setError } = useContext(ErrorContext);
     const [topics, setTopics] = useState([]);
+    
 
     useEffect(() => {
-        setIsLoading(true);
         getTopics()
             .then((topicsFromApi) => {
                 setTopics(topicsFromApi);
@@ -22,11 +19,12 @@ export const NavigateBar = () => {
             .catch((error) => {
                 setError(error);
                 setIsLoading(false);
+                navigate("/error");
             });
     }, []);
 
     const handleNavClick = (topic) => {
-        navigate(`/articles/${topic}`);
+        setSelectedTopic(topic)
     };
 
     if (isLoading) {

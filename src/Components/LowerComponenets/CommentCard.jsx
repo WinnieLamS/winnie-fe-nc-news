@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { deleteComment, getCommentById } from "../../Api";
 import { Loading } from "./Loading";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext";
+import { ErrorContext } from "../../contexts/ErrorContext";
 
-export const CommentCard = ({ comments, setComments, user, article_id, setError, setArticle }) => {
+export const CommentCard = ({ comments, setComments, article_id, setArticle }) => {
+    const { user } = useContext(UserContext);
+    const { error, setError } = useContext(ErrorContext);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const [toggle, setToggle] = useState(false);
@@ -28,9 +32,9 @@ export const CommentCard = ({ comments, setComments, user, article_id, setError,
             })
             .catch((error) => {
                 setError(error);
-                navigate("/error");
                 setIsLoading(false);
                 setToggle(false);
+                navigate("/error");
             });
     };
 
@@ -48,6 +52,10 @@ export const CommentCard = ({ comments, setComments, user, article_id, setError,
     if (isLoading) {
         return <Loading />;
     }
+    if (error) {
+        return <Error error={error} />;
+      }
+
 
     return (
         <section className="comment_card">

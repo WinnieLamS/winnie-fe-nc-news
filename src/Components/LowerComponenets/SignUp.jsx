@@ -2,9 +2,13 @@ import { useState, useContext } from "react";
 import { postUser } from "../../Api";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
+import { ErrorContext } from "../../contexts/ErrorContext";
 
 export const SignUp = () => {
   const {user, setUser} = useContext(UserContext)
+  const [isLoading, setIsLoading] = useState(false);
+  const { error, setError } = useContext(ErrorContext);
+
   const navigate = useNavigate();
   
 
@@ -33,6 +37,13 @@ export const SignUp = () => {
         setUser(user)
         return navigate("/user");
     })
+  }
+  if (isLoading) {
+    return <Loading />;
+}
+
+if (error) {
+    return <Error error={error} />;
   }
 
   return (

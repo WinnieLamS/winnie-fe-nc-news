@@ -1,50 +1,81 @@
-import { useState, useContext, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Loading } from "./Loading";
 import { getArticles } from "../../Api";
-import { Error } from "./Error";
 import { NavigateBar } from "./NavigateBar";
-import { UserContext } from "../../contexts/UserContext";
+import { Error } from "./Error";
+import { ErrorContext } from "../../contexts/ErrorContext";
 
 export const ArticleList = () => {
     const navigate = useNavigate();
-    const { topic } = useParams();
+    const { error, setError } = useContext(ErrorContext);
     const [articles, setArticles] = useState([]);
+    const [selectedTopic, setSelectedTopic] = useState("");
+    const [searchParams, setSearchParams] = useSearchParams();
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null); 
-    const [options, setOptions] = useState({
-        sort_by: "created_at",
-        order: "desc"
-    });
-    const [formInputs, setFormInputs] = useState({
-        sort_by: "created_at",
-        order: "desc"
-    });
     
+
+
+    const initialSortBy = searchParams.get("sort_by") || "created_at";
+    const initialOrder = searchParams.get("order") || "desc";
+    const initialTopic = searchParams.get("topic") || selectedTopic || "";
+
+ 
+    const [options, setOptions] = useState({
+        sort_by: initialSortBy,
+        order: initialOrder,
+        topic: initialTopic
+    });
+
+    const [formInputs, setFormInputs] = useState({
+        sort_by: initialSortBy,
+        order: initialOrder,
+        topic: initialTopic
+    });
+
+
+    useEffect(() => {
+        if (selectedTopic) {
+            setOptions((currentValue) => ({
+                ...currentValue,
+                topic: selectedTopic
+            }));
+            setFormInputs((currentValue) => ({
+                ...currentValue,
+                topic: selectedTopic
+            }));
+            setSearchParams((currentValue) => ({
+                ...currentValue,
+                topic: selectedTopic,
+                sort_by: formInputs.sort_by,
+                order: formInputs.order
+            }));
+        }
+    }, [selectedTopic, setSearchParams]);
+
+
     const fetchArticles = () => {
         setIsLoading(true);
         getArticles(options)
         .then((articlesArrFromApi) => {
-            let filteredArticles = articlesArrFromApi;
-            if (topic) {
-                filteredArticles = articlesArrFromApi.filter((article) => article.topic === topic);
-            }
-            setArticles(filteredArticles);
+            setArticles(articlesArrFromApi);
             setIsLoading(false);
         })
         .catch((error) => {
-            setError(error);
+            setError({ message: error.response.data.msg});
             setIsLoading(false);
-        });
+            return navigate("/error")
+        });     
     };
-
+    
     useEffect(() => {
         fetchArticles();
-    }, [topic, options]);
-    
+    }, [options]);
+
     const handleSearch = (e) => {
         e.preventDefault();
         setOptions(formInputs);
+        setSearchParams(formInputs);
     };
 
     const handleInputChange = (e) => {
@@ -61,7 +92,8 @@ export const ArticleList = () => {
 
     if (error) {
         return <Error error={error} />;
-    }
+      }
+      
 
     const handleArticleClick = (article_id) => {
         navigate(`/article/${article_id}`);
@@ -69,11 +101,12 @@ export const ArticleList = () => {
 
     return (
         <>
-            <NavigateBar />
+            <NavigateBar setSelectedTopic={setSelectedTopic} 
+            isLoading={isLoading} setIsLoading={setIsLoading}/>
             <form onSubmit={handleSearch}>
                 <section>
                     <label>
-                        Sort By: 
+                        Sort By:
                         <select name="sort_by" value={formInputs.sort_by} onChange={handleInputChange}>
                             <option value="created_at">Newest</option>
                             <option value="votes">Popularity</option>
@@ -90,12 +123,17 @@ export const ArticleList = () => {
                     <button type="submit">Search</button>
                 </section>
             </form>
-            {topic ? 
-                (<section>
-                    <button onClick={() => navigate("/")}>Home Page</button>
-                    <h3>{topic}</h3>
-                </section>)
-            : null}
+            {selectedTopic ? (
+                <section>
+                    <button onClick={() => {
+                        setSelectedTopic("")
+                        setOptions({ sort_by: "created_at", order: "desc", topic: "" });
+                        setFormInputs({ sort_by: "created_at", order: "desc", topic: "" });
+                        setSearchParams();
+                    }}>Home Page</button>
+                    <h3>{selectedTopic}</h3>
+                </section>
+            ) : null}
             {articles.map((article) => (
                 <div
                     className="article_list"

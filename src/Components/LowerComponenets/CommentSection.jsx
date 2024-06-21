@@ -4,9 +4,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { getCommentById, postComment } from "../../Api";
 import { Loading } from "./Loading";
 import { CommentCard } from "./CommentCard";
+import { ErrorContext } from "../../contexts/ErrorContext";
 
-export const CommentSection = ({ article, setError, setArticle }) => {
+export const CommentSection = ({ article, setArticle }) => {
     const { user } = useContext(UserContext);
+    const { error, setError } = useContext(ErrorContext);
     const navigate = useNavigate();
     const location = useLocation();
     const [comments, setComments] = useState([]);
@@ -47,14 +49,19 @@ export const CommentSection = ({ article, setError, setArticle }) => {
             })
             .catch((error) => {
                 setError(error);
-                navigate("/error");
                 setToggle(false);
+                navigate("/error");
             });
     };
 
     if (isLoading) {
         return <Loading />;
     }
+
+    if (error) {
+        return <Error error={error} />;
+      }
+
 
     return (
         <>

@@ -2,11 +2,15 @@ import { useState, useContext } from "react";
 import { getUser } from "../../Api";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
+import { ErrorContext } from "../../contexts/ErrorContext";
 import { Error } from "./Error";
+import { Loading } from "./Loading";
 
-export const LogIn = ({ error, setError }) => {
+export const LogIn = () => {
     const { setUser } = useContext(UserContext);
+    const { error, setError } = useContext(ErrorContext);
     const [inputUsername, setInputUsername] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -14,14 +18,16 @@ export const LogIn = ({ error, setError }) => {
 
     const handleClick = (e) => {
         e.preventDefault();
+        setIsLoading(true);
         getUser(inputUsername)
             .then((userFromApi) => {
                 setUser(userFromApi);
                 navigate(from, { replace: true });
             })
             .catch((error) => {
-                setError(error);
-                navigate("/error");
+                setError({ message: error.response.data.msg});
+                setIsLoading(false);
+                return navigate("/error")
             });
     };
 
@@ -29,6 +35,9 @@ export const LogIn = ({ error, setError }) => {
         setInputUsername(e.target.value);
     };
 
+    if (isLoading) {
+        return <Loading />;
+    }
     if (error) {
         return <Error error={error} />;
     }
