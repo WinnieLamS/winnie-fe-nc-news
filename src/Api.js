@@ -8,7 +8,8 @@ export const getArticles = (options) => {
     
     return ncApi.get('/articles', {  params: {
         sort_by: options.sort_by,
-        order: options.order
+        order: options.order,
+        topic: options.topic
     }
 })
     .then((response) => {
