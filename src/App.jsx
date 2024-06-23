@@ -17,7 +17,6 @@ import { CommentSection } from './Components/LowerComponenets/CommentSection';
 function App() {
   
   const [article, setArticle] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <UserProvider>
@@ -26,7 +25,7 @@ function App() {
       <Header />
       <Routes>
         <Route path='/' element={<Home setArticle={setArticle} />} />
-
+        
         <Route path='/article/:article_id' element={<ArticleCard 
         article={article} setArticle={setArticle} />} />
 
