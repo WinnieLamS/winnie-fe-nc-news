@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getArticleById, patchVote } from "../../Api";
 import { CommentSection } from "./CommentSection";
 import { Loading } from "./Loading";
+import greyHomeIcon from "/Users/winnielin/winnie-nc-news/src/images/greyHome.png";
 
 export const ArticleCard = ({ article, setArticle }) => {
     const { article_id } = useParams();
@@ -62,11 +63,12 @@ export const ArticleCard = ({ article, setArticle }) => {
 
     return (
         <>
-         <button onClick={()=> navigate("/")}>Home Page</button>
-         
+         <p onClick={()=>{navigate('/')}} className="back_home">
+            <img src={greyHomeIcon} alt="Grey home icon" />
+            </p>
             {article && (
                 <section className="article_card">
-                    <h2>{article.title}</h2>
+                    <h1>{article.title}</h1>
                     <p>Topic: {article.topic}</p>
                     <p>Author: {article.author}</p>
                     <img src={article.article_img_url} alt={article.title} />

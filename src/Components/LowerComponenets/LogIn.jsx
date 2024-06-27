@@ -44,10 +44,15 @@ export const LogIn = () => {
 
     return (
         <>
+        <p onClick={()=>{navigate('/')}} className="back_home">
+            <img src="src/images/greyHome.png" alt="Grey home icon" />
+            </p>
             <form>
                 <input placeholder="Username" type="text" onChange={handleChange} required />
                 <button type="button" onClick={handleClick}>Log In</button>
             </form>
+            <h3>Don’t have a NC account?</h3>
+            <button type="button" onClick={()=>navigate("/sign_up", { state: { from: location } })}>Register now</button>
         </>
     );
 };

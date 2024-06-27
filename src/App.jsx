@@ -12,31 +12,28 @@ import { LogIn } from './Components/LowerComponenets/LogIn';
 import { SignUp } from './Components/LowerComponenets/SignUp';
 import { Error } from './Components/LowerComponenets/Error';
 import { CommentSection } from './Components/LowerComponenets/CommentSection';
-
+import { Currency } from './Components/Currency';
 
 function App() {
-  
   const [article, setArticle] = useState({});
 
   return (
     <UserProvider>
       <ErrorProvider>
-         <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path='/' element={<Home setArticle={setArticle} />} />
-        
-        <Route path='/article/:article_id' element={<ArticleCard 
-        article={article} setArticle={setArticle} />} />
-
-        <Route path='/comments' element={<CommentSection />} />
-        <Route path='/user' element={<User />} />
-        <Route path='/log_in' element={<LogIn />} />
-        <Route path='/sign_up' element={<SignUp />} />
-        <Route path='/error' element={<Error />} />
-        <Route path='*' element={<Error error={{ message: "Page Not Found" }} />} />
-      </Routes>
-      <Footer />
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path='/' element={<Home setArticle={setArticle} />} />
+            <Route path='/article/:article_id' element={<ArticleCard article={article} setArticle={setArticle} />} />
+            <Route path='/comments' element={<CommentSection />} />
+            <Route path='/user' element={<User />} />
+            <Route path='/log_in' element={<LogIn />} />
+            <Route path='/sign_up' element={<SignUp />} />
+            <Route path='/error' element={<Error />} />
+            <Route path='*' element={<Error error={{ message: "Page Not Found" }} />} />
+            <Route path='/currency' element={<Currency />} />
+          </Routes>
+          <Footer />
         </BrowserRouter>
       </ErrorProvider>
     </UserProvider>
