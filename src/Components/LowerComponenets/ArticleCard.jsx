@@ -65,9 +65,9 @@ export const ArticleCard = ({ article, setArticle }) => {
             {article && (
                 <section className="article_card">
                     <h1>{article.title}</h1>
-                    <p>Topic: {article.topic}</p>
-                    <p>Author: {article.author}</p>
+                    <p id="topic">{article.topic.toUpperCase()}</p>
                     <img src={article.article_img_url} alt={article.title} />
+                    <p>By {article.author}</p>
                     <p>{article.body}</p>
                     <p>Created at: {formatDate(article.created_at)}</p>
                     <div>

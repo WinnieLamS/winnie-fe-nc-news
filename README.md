@@ -8,6 +8,8 @@ This project is the frontend for Northcoders News, a social news aggregation, we
 
 The deployed version of this frontend can be accessed at [Winnie's NC News App (Frontend)](https://winne-nc-news.netlify.app/).
 
+For functional testing, you can use the username `tickle122`.
+
 ## Backend Repository
 
 The backend API repository for Northcoders News can be found at [Winnie's NC News Api (Backend)](https://github.com/WinnieLamS/winnie-be-nc-news).
