@@ -10,10 +10,11 @@
 
 .header {
     display: flex;
-    align-items:flex-start;
+    align-items: center;
     padding: 0 80px;
     align-items: center;
     background-color: #ffffff;
+    cursor: pointer;
 }
 
 .header__logo {
@@ -34,6 +35,7 @@
 .logIn_signUp {
     margin-left: auto;
     margin-top: -135px; 
+    cursor: pointer;
 }
 
 .logIn_signUp img {

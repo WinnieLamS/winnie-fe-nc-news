@@ -3,6 +3,7 @@ import { UserContext } from "../contexts/UserContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Loading } from "./LowerComponenets/Loading";
 import { ArticleList } from "./LowerComponenets/ArticleLIst";
+import logInIcon from '../images/logIn.png';
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -14,29 +15,37 @@ export const Home = () => {
         return <Loading />;
     }
 
-
     return (
         <>
-        <div className="Header_container">
-        <div className="logIn_signUp">
-            {Object.keys(user).length === 0 ? (
-                <section>
-                    <img type="button" onClick={()=>navigate("/log_in", { state: { from: location } })} src="src/images/logIn.png" alt="Log in icon" />
-                </section>
-            ) : (
-                <section>
-                     <button type="button" onClick={() => navigate("/user")} className="username_button">
-                        Hello {user.username} !
-                    </button>
-                </section>
-            )}
-            </div>
+            <div className="Header_container">
+                <div className="logIn_signUp">
+                    {Object.keys(user).length === 0 ? (
+                        <section>
+                            <img
+                                type="button"
+                                onClick={() => navigate("/log_in", { state: { from: location } })}
+                                src={logInIcon}
+                                alt="Log in icon"
+                            />
+                        </section>
+                    ) : (
+                        <section>
+                            <button
+                                type="button"
+                                onClick={() => navigate("/user")}
+                                className="username_button"
+                            >
+                                Hello {user.username}!
+                            </button>
+                        </section>
+                    )}
+                </div>
             </div>
             <div>
-            <section>
-                <ArticleList isLoading={isLoading} setIsLoading={setIsLoading}/>
-            </section>
-        </div>
+                <section>
+                    <ArticleList isLoading={isLoading} setIsLoading={setIsLoading} />
+                </section>
+            </div>
         </>
     );
 };

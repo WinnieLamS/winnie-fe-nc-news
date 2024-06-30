@@ -5,6 +5,7 @@ import { Error } from "./Error";
 import { ErrorContext } from "../../contexts/ErrorContext";
 import '../../css/NavigateBar.css';
 import { useNavigate } from "react-router-dom";
+import whiteHomeIcon from '../../images/whiteHome.png';
 
 export const NavigateBar = ({ setSelectedTopic, setSearchParams, setFormInputs, setOptions }) => {
     const navigate = useNavigate();
@@ -41,12 +42,15 @@ export const NavigateBar = ({ setSelectedTopic, setSearchParams, setFormInputs, 
     return (
         <section className="navigate_bar">
             <nav>
-                <p onClick={()=>{
-                setSelectedTopic("")
-                setOptions({ sort_by: "created_at", order: "desc", topic: "" })
-                setFormInputs({ sort_by: "created_at", order: "desc", topic: "" })
-                setSearchParams()
-                navigate('/')}} className="nav_home"><img src="src/images/whiteHome.png" alt="White home icon" /></p>
+                <p onClick={() => {
+                    setSelectedTopic("")
+                    setOptions({ sort_by: "created_at", order: "desc", topic: "" })
+                    setFormInputs({ sort_by: "created_at", order: "desc", topic: "" })
+                    setSearchParams()
+                    navigate('/')
+                }} className="nav_home">
+                    <img src={whiteHomeIcon} alt="White home icon" />
+                </p>
                 {topics.map((topic) => (
                     <div
                         key={topic.slug}
