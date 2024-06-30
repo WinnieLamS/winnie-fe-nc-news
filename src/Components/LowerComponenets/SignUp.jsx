@@ -49,9 +49,6 @@ if (error) {
 
   return (
     <>
-    <p onClick={()=>{navigate('/')}} className="back_home">
-            <img src="src/images/greyHome.png" alt="Grey home icon" />
-            </p>
       <form onSubmit={handleSubmit}>
         <div>
           <input

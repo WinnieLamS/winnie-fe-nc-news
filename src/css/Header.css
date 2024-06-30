@@ -1,9 +1,10 @@
 .Header_container {
-    max-width: 1280px;
+    max-width: 1800px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #ffffff;
+    padding: 0 50px;
 
 }
 
@@ -26,31 +27,13 @@
     color: #213547;
 }
 
-.back_home {
-    margin-left: auto;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    margin-top: -85px; 
-    padding-left: 450px;
-}
-
-.back_home img{
-    width: 30px; 
-  height: auto; 
-}
-
-.back_home img:hover {
-    transform: scale(1.5); 
-}
+.header__title:hover {
+    transform: scale(1.05); 
+} 
 
 .logIn_signUp {
     margin-left: auto;
-    display: flex;
-    gap: 20px;
-    align-items:flex-end;
     margin-top: -135px; 
-    padding-left: 100px;
 }
 
 .logIn_signUp img {

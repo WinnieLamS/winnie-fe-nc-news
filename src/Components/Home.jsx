@@ -31,7 +31,6 @@ export const Home = () => {
                 </section>
             )}
             </div>
-            <button type="button" onClick={()=>navigate("/currency")}>Currency</button>
             </div>
             <div>
             <section>

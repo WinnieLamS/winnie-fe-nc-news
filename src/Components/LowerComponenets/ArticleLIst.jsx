@@ -153,8 +153,10 @@ export const ArticleList = () => {
                     <button type="submit">Search</button>
                 </section>
             </form>
-            {selectedTopic ? <h2>{selectedTopic}</h2> : null}
-            <div className="articles_container">
+
+            <div className="list_container">
+            {selectedTopic ? <h2 className="selected_topic">{selectedTopic.toUpperCase()}</h2> : null}
+                <section className="articles_container">
                 {articles.map((article) => (
                     <div
                         className="article_list"
@@ -171,6 +173,7 @@ export const ArticleList = () => {
                         {/* <p className="create_time">•{timeSince(article.created_at)}</p> */}
                     </div>
                 ))}
+                </section>
             </div>
         </>
     );

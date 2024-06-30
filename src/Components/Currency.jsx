@@ -1,52 +1,103 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import Freecurrencyapi from '@everapi/freecurrencyapi-js';
 
 export const Currency = () => {
+    const API_KEY = 'fca_live_IropyDFdmtx6LGLRrwMt76lfEgT2pRcVC0XswPXa'; 
+    const freecurrencyapi = new Freecurrencyapi(API_KEY);
+
     const [exchangeData, setExchangeData] = useState({});
-    const [baseCurrency, setBaseCurrency] = useState("USD");
-    const [exchangeCurrency, setExchangeCurrency] = useState("GBP");
+    const [baseCurrencyCode, setBaseCurrencyCode] = useState("");
+    const [baseCurrencyName, setBaseCurrencyName] = useState("");
+    const [exchangeCurrencyCode, setExchangeCurrencyCode] = useState("");
+    const [exchangeCurrencyName, setExchangeCurrencyName] = useState("");
+    const [nameToCodeList, setNameToCodeList] = useState({});
 
     useEffect(() => {
-        fetch(`https://openexchangerates.org/api/latest.json?app_id=d1cbaf35f95e4608b0c06a8a94b44d0d&base=${baseCurrency}`)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                setExchangeData(data);
-            })
-    }, [baseCurrency]);
+        const fetchCurrencyList = async () => {
+            try {
+                const response = await freecurrencyapi.currencies();
+                const currencyDetailsList = response.data;
+                const currencyNameToCode = {};
+                Object.keys(currencyDetailsList).forEach(currencyCode => {
+                    const currencyDetails = currencyDetailsList[currencyCode];
+                    currencyNameToCode[currencyDetails.name] = currencyCode;
+                });
+                setNameToCodeList(currencyNameToCode);
+            } catch (error) {
+                console.error('Error fetching currency list:', error);
+            }
+        };
 
-    const exchangeRate = exchangeData.rates ? exchangeData.rates[exchangeCurrency] : "Loading...";
+        fetchCurrencyList();
+    }, []);
+
+    useEffect(() => {
+        const fetchExchangeRates = async () => {
+            try {
+                if (baseCurrencyCode && exchangeCurrencyCode) {
+                    const response = await freecurrencyapi.latest({
+                        base_currency: baseCurrencyCode,
+                        currencies: exchangeCurrencyCode
+                    });
+                    setExchangeData(response);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        
+        fetchExchangeRates();
+    }, [baseCurrencyCode, exchangeCurrencyCode]);
+
+    const exchangeRate = exchangeData.data ? exchangeData.data[exchangeCurrencyCode] : null;
+
+    const handleBaseCurrencyChange = (e) => {
+        const selectedCurrency = e.target.value;
+        setBaseCurrencyName(selectedCurrency);
+        setBaseCurrencyCode(nameToCodeList[selectedCurrency]);
+    };
+
+    const handleTargetCurrencyChange = (e) => {
+        const selectedCurrency = e.target.value;
+        setExchangeCurrencyName(selectedCurrency);
+        setExchangeCurrencyCode(nameToCodeList[selectedCurrency]);
+    };
+
+    const currencyOptions = Object.keys(nameToCodeList).map(currencyName => (
+        <option key={currencyName} value={currencyName}>{currencyName}</option>
+    ));
 
     return (
-        <footer className="currency">
+        <div className="currency">
             <div>
-                <label htmlFor="baseCurrency">Base Currency: </label>
+                <label htmlFor="selectBaseCurrency">Use: </label>
                 <select
-                    id="baseCurrency"
-                    value={baseCurrency}
-                    onChange={(e) => setBaseCurrency(e.target.value)}
+                    id="selectBaseCurrency"
+                    onChange={handleBaseCurrencyChange}
+                    value={baseCurrencyName}
                 >
-                    {exchangeData.rates && Object.keys(exchangeData.rates).map((currency) => (
-                        <option key={currency} value={currency}>
-                            {currency}
-                        </option>
-                    ))}
+                    <option value="">-- Base Currency --</option>
+                    {currencyOptions}
                 </select>
             </div>
             <div>
-                <label htmlFor="exchangeCurrency">Exchange Currency: </label>
+                <label htmlFor="selectExchangeCurrency">To Buy: </label>
                 <select
-                    id="exchangeCurrency"
-                    value={exchangeCurrency}
-                    onChange={(e) => setExchangeCurrency(e.target.value)}
+                    id="selectExchangeCurrency"
+                    onChange={handleTargetCurrencyChange}
+                    value={exchangeCurrencyName}
                 >
-                    {exchangeData.rates && Object.keys(exchangeData.rates).map((currency) => (
-                        <option key={currency} value={currency}>
-                            {currency}
-                        </option>
-                    ))}
+                    <option value="">-- Exchange Currency --</option>
+                    {currencyOptions.filter(currency => currency !== baseCurrencyName)}
                 </select>
             </div>
-            <h4>Exchange Rate: {exchangeRate}</h4>
-        </footer>
+             <h4>
+                {exchangeRate && exchangeCurrencyCode? (
+                    <p>1 {baseCurrencyCode} = {exchangeRate.toFixed(2)} {exchangeCurrencyCode}</p>
+                ) : (
+                    <p>Loading</p>
+                )}
+            </h4>
+        </div>
     );
 };

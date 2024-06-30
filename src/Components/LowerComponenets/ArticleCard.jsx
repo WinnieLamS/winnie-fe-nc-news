@@ -63,9 +63,6 @@ export const ArticleCard = ({ article, setArticle }) => {
 
     return (
         <>
-         <p onClick={()=>{navigate('/')}} className="back_home">
-            <img src={greyHomeIcon} alt="Grey home icon" />
-            </p>
             {article && (
                 <section className="article_card">
                     <h1>{article.title}</h1>

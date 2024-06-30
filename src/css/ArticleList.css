@@ -1,8 +1,19 @@
+.list_container{
+    padding: 30px 200px;
+}
+
+.selected_topic{
+    font-size: 2em;
+    color: #213547;
+    margin-left: 10px;
+    text-align: left;
+}
+
 .articles_container {
+    margin-top: 10px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    gap: 20px;
-    padding: 30px 200px;
+    gap: 10px;
 }
 
 .article_list {
@@ -12,6 +23,7 @@
     transition: transform 0.3s ease;
     height: 100%;
 }
+
 
 .article_list:hover {
     transform: scale(1.05);
@@ -24,6 +36,7 @@
 }
 
 .article_list h2 {
+    font:inherit;
     font-size: 1.5em;
     margin-bottom: 10px;
     color: #213547;
@@ -31,7 +44,7 @@
 }
 
 .topic {
-    font-size: 1em;
+    font-size: 0.8em;
     color: #a40000;
     text-align: left;
     margin-top: auto;

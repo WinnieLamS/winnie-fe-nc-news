@@ -44,9 +44,6 @@ export const LogIn = () => {
 
     return (
         <>
-        <p onClick={()=>{navigate('/')}} className="back_home">
-            <img src="src/images/greyHome.png" alt="Grey home icon" />
-            </p>
             <form>
                 <input placeholder="Username" type="text" onChange={handleChange} required />
                 <button type="button" onClick={handleClick}>Log In</button>
