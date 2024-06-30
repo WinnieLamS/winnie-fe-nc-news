@@ -5,6 +5,7 @@ import { getArticles } from "../../Api";
 import { NavigateBar } from "./NavigateBar";
 import { Error } from "./Error";
 import { ErrorContext } from "../../contexts/ErrorContext";
+import "../../css/ArticleList.css"
 
 export const ArticleList = () => {
     const navigate = useNavigate();
@@ -86,6 +87,29 @@ export const ArticleList = () => {
         }));
     };
 
+    // const timeSince = (date) => {
+    //     const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+    //     let interval = Math.floor(seconds / 31536000);
+        
+    //     if (interval > 1) {
+    //         return `${interval}y`;
+    //     }
+    //     interval = Math.floor(seconds / 2592000);
+    //     if (interval > 1) {
+    //         return `${interval}m`;
+    //     }
+    //     interval = Math.floor(seconds / 86400);
+    //     if (interval > 1) {
+    //         return `${interval}d`;
+    //     }
+    //     interval = Math.floor(seconds / 3600);
+    //     if (interval > 1) {
+    //         return `${interval}h`;
+    //     }
+    //     interval = Math.floor(seconds / 60);
+    //     return `${interval}min`;
+    // };
+
     if (isLoading) {
         return <Loading />;
     }
@@ -101,8 +125,14 @@ export const ArticleList = () => {
 
     return (
         <>
-            <NavigateBar setSelectedTopic={setSelectedTopic} 
-            isLoading={isLoading} setIsLoading={setIsLoading}/>
+            <NavigateBar
+                setSelectedTopic={setSelectedTopic}
+                setOptions={setOptions}
+                setFormInputs={setFormInputs}
+                setSearchParams={setSearchParams}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+            />
             <form onSubmit={handleSearch}>
                 <section>
                     <label>
@@ -123,32 +153,29 @@ export const ArticleList = () => {
                     <button type="submit">Search</button>
                 </section>
             </form>
-            {selectedTopic ? (
-                <section>
-                    <button onClick={() => {
-                        setSelectedTopic("")
-                        setOptions({ sort_by: "created_at", order: "desc", topic: "" });
-                        setFormInputs({ sort_by: "created_at", order: "desc", topic: "" });
-                        setSearchParams();
-                    }}>Home Page</button>
-                    <h3>{selectedTopic}</h3>
+
+            <div className="list_container">
+            {selectedTopic ? <h2 className="selected_topic">{selectedTopic.toUpperCase()}</h2> : null}
+                <section className="articles_container">
+                {articles.map((article) => (
+                    <div
+                        className="article_list"
+                        key={article.article_id}
+                        onClick={() => handleArticleClick(article.article_id)}
+                    >
+                        <img
+                            className="article_image"
+                            src={article.article_img_url}
+                            alt={article.title}
+                        />
+                        <h2>{article.title}</h2>
+                        <p className="topic">{article.topic.toUpperCase()}</p>
+                        {/* <p className="create_time">•{timeSince(article.created_at)}</p> */}
+                    </div>
+                ))}
                 </section>
-            ) : null}
-            {articles.map((article) => (
-                <div
-                    className="article_list"
-                    key={article.article_id}
-                    onClick={() => handleArticleClick(article.article_id)}
-                >
-                    <h4>{article.title}</h4>
-                    <p>Topic: {article.topic}</p>
-                    <img
-                        className="article_image"
-                        src={article.article_img_url}
-                        alt={article.title}
-                    />
-                </div>
-            ))}
+            </div>
         </>
     );
+    
 };

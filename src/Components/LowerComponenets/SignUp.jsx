@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { postUser } from "../../Api";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import { ErrorContext } from "../../contexts/ErrorContext";
 
@@ -8,6 +8,7 @@ export const SignUp = () => {
   const {user, setUser} = useContext(UserContext)
   const [isLoading, setIsLoading] = useState(false);
   const { error, setError } = useContext(ErrorContext);
+  const location = useLocation();
 
   const navigate = useNavigate();
   

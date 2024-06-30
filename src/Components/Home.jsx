@@ -17,11 +17,11 @@ export const Home = () => {
 
     return (
         <>
-        <div>
+        <div className="Header_container">
+        <div className="logIn_signUp">
             {Object.keys(user).length === 0 ? (
                 <section>
-                    <button type="button" onClick={()=>navigate("/log_in", { state: { from: location } })}>Log In</button>
-                    <button type="button" onClick={()=>navigate("/sign_up", { state: { from: location } })}>Sign Up</button>
+                    <img type="button" onClick={()=>navigate("/log_in", { state: { from: location } })} src="src/images/logIn.png" alt="Log in icon" />
                 </section>
             ) : (
                 <section>
@@ -30,6 +30,9 @@ export const Home = () => {
                     </button>
                 </section>
             )}
+            </div>
+            </div>
+            <div>
             <section>
                 <ArticleList isLoading={isLoading} setIsLoading={setIsLoading}/>
             </section>

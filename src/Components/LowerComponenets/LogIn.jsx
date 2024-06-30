@@ -48,6 +48,8 @@ export const LogIn = () => {
                 <input placeholder="Username" type="text" onChange={handleChange} required />
                 <button type="button" onClick={handleClick}>Log In</button>
             </form>
+            <h3>Don’t have a NC account?</h3>
+            <button type="button" onClick={()=>navigate("/sign_up", { state: { from: location } })}>Register now</button>
         </>
     );
 };

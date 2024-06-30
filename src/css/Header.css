@@ -1,0 +1,47 @@
+.Header_container {
+    max-width: 1800px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+    padding: 0 50px;
+
+}
+
+.header {
+    display: flex;
+    align-items:flex-start;
+    padding: 0 80px;
+    align-items: center;
+    background-color: #ffffff;
+}
+
+.header__logo {
+    display: inline-flex;
+    width: 90px;
+    height: auto;
+}
+
+.header__title {
+    font-size: 4em;
+    color: #213547;
+}
+
+.header__title:hover {
+    transform: scale(1.05); 
+} 
+
+.logIn_signUp {
+    margin-left: auto;
+    margin-top: -135px; 
+}
+
+.logIn_signUp img {
+    width: 30px; 
+  height: auto; 
+}
+
+.logIn_signUp img:hover {
+    transform: scale(1.3); 
+}
+
