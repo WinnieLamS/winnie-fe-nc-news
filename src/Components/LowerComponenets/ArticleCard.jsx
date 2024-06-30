@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getArticleById, patchVote } from "../../Api";
 import { CommentSection } from "./CommentSection";
 import { Loading } from "./Loading";
-import greyHomeIcon from "/Users/winnielin/winnie-nc-news/src/images/greyHome.png";
 
 export const ArticleCard = ({ article, setArticle }) => {
     const { article_id } = useParams();
