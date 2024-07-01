@@ -95,20 +95,6 @@ footer {
   height: 5em; 
 }
 
-.comment_form button {
-  align-self: center;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #2b5886;
-  color: white;
-  cursor: pointer;
-}
-
-.comment_form button:hover {
-  background-color: #0056b3;
-}
-
 .comment_section {
   border: 1px solid #ccc;
   padding: 10px;
