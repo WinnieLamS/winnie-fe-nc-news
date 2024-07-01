@@ -30,13 +30,13 @@ export const Home = () => {
                         </section>
                     ) : (
                         <section>
-                            <button
+                            <h3
                                 type="button"
                                 onClick={() => navigate("/user")}
                                 className="username_button"
                             >
-                                Hello {user.username}!
-                            </button>
+                                Hello {user.username}
+                            </h3>
                         </section>
                     )}
                 </div>

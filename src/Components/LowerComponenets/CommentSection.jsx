@@ -67,9 +67,9 @@ export const CommentSection = ({ article, setArticle }) => {
         <>
             {user.username ? (
                 <form className="comment_form" onSubmit={handleCommentSubmit}>
-                    <button type="button" onClick={() => navigate("/user")} className="username_button">
+                    <h3 type="button" onClick={() => navigate("/user")} className="username_button">
                         {user.username}
-                    </button>
+                    </h3>
                     <textarea
                         className="comment_input"
                         placeholder="Write a comment..."
@@ -85,13 +85,10 @@ export const CommentSection = ({ article, setArticle }) => {
                         <button type="button" onClick={() => navigate("/log_in", { state: { from: location } })}>
                             Log In
                         </button>
-                        <button type="button" onClick={() => navigate("/sign_up", { state: { from: location } })}>
-                            Sign Up
-                        </button>
                     </section>
                     <textarea
                         className="comment_input"
-                        placeholder="If you want to write a comment, please log in first."
+                        placeholder="Please log in first."
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
                         required
