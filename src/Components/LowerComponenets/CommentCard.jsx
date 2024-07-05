@@ -4,6 +4,7 @@ import { Loading } from "./Loading";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import { ErrorContext } from "../../contexts/ErrorContext";
+import "../../css/CommentSection.css";
 
 export const CommentCard = ({ comments, setComments, article_id, setArticle }) => {
     const { user } = useContext(UserContext);
@@ -58,9 +59,9 @@ export const CommentCard = ({ comments, setComments, article_id, setArticle }) =
 
 
     return (
-        <section className="comment_card">
+        <section >
             {comments.map((comment) => (
-                <section key={comment.comment_id} className="comment_section">
+                <section key={comment.comment_id} className="comment_card">
                     <div className="comment_author">{comment.author}</div>
                     <div className="comment_body">{comment.body}</div>
                     <div className="comment_meta">

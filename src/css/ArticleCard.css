@@ -1,0 +1,74 @@
+.article_card {
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #ffffff;
+    text-align: left; 
+}
+
+.article_card h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #213547;
+}
+
+#topic {
+    font-size: 1em;
+    color: #a40000;
+    margin-bottom: 50px;
+}
+
+#author {
+    font-weight: bold;
+}
+
+.article_card img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.article_card p {
+    font-size: 1em;
+    color: #213547;
+    margin-bottom: 10px;
+    
+}
+
+.article_card button {
+    background-color: #ffffff;
+    border: 1px solid #213547;
+    border-radius: 5px;
+    color: #213547;
+    font-size: 1em;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.article_card button:hover {
+    background-color: #213547;
+    color: #ffffff;
+}
+
+.article_card .votes,
+.article_card .comment_count {
+    font-size: 1em;
+    color: #213547;
+    margin-bottom: 10px;
+}
+
+.article_card .vote_buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.article_comment {
+    width: 100%;
+    margin-top: 10px;
+    padding-top: 20px;
+}

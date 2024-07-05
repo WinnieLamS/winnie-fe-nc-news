@@ -28,8 +28,13 @@ export const LogIn = () => {
             .catch((error) => {
                 setError({ message: error.response.data.msg});
                 setIsLoading(false);
-                return navigate("/error")
+                return navigate("/error");
             });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault(); 
+        handleClick(e); 
     };
 
     const handleChange = (e) => {
@@ -45,13 +50,25 @@ export const LogIn = () => {
 
     return (
         <>
-            <form>
-                <input placeholder="Username" type="text" onChange={handleChange} required />
-                <button type="button" onClick={handleClick}>Log In</button>
+            <form onSubmit={handleSubmit}>
+                <input
+                    placeholder="Username"
+                    type="text"
+                    value={inputUsername}
+                    onChange={handleChange}
+                    required
+                />
+                <button type="submit">Log In</button>
             </form>
             <section className="goToSignUp">
-                <h3>Don’t have a NC account?</h3>
-                <button type="button" onClick={() => navigate("/sign_up", { state: { from: location } })}>Register now</button>
+                <h3>Don’t have an NC account?</h3>
+                <button
+                    id="register"
+                    type="button"
+                    onClick={() => navigate("/sign_up", { state: { from: location } })}
+                >
+                    Register now
+                </button>
             </section>
         </>
     );

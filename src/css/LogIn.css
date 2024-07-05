@@ -24,3 +24,17 @@ input[type="text"] {
     margin-bottom: 10px;
 }
 
+#register {
+    background: none;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 1em;
+    padding: 0;
+    margin: 0;
+}
+
+#register:hover {
+    color: darkblue;
+}
