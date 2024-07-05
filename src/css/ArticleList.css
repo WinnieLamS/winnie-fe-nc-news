@@ -10,7 +10,7 @@
 }
 
 .articles_container {
-    margin-top: 10px;
+    margin-bottom: 30px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 10px;
@@ -22,6 +22,7 @@
     padding: 15px;
     transition: transform 0.3s ease;
     height: 100%;
+    
 }
 
 
@@ -32,13 +33,13 @@
 .article_image {
     width: 100%;
     height: auto;
-    margin-bottom: 1px;
+    margin-bottom: 0px;
 }
 
 .article_list h2 {
     font:inherit;
     font-size: 1.5em;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     color: #213547;
     text-align: left;
 }
@@ -48,6 +49,7 @@
     color: #a40000;
     text-align: left;
     margin-top: auto;
+    margin-bottom: 50px;
 }
 
 .create_time {

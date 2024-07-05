@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getArticleById, patchVote } from "../../Api";
 import { CommentSection } from "./CommentSection";
 import { Loading } from "./Loading";
+import "../../css/ArticleCard.css";  // Importing the CSS file
 
 export const ArticleCard = ({ article, setArticle }) => {
     const { article_id } = useParams();
@@ -12,6 +13,8 @@ export const ArticleCard = ({ article, setArticle }) => {
     const { error, setError } = useContext(ErrorContext);
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
+    const [hasUpvoted, setHasUpvoted] = useState(false);
+    const [hasDownvoted, setHasDownvoted] = useState(false);
 
     useEffect(() => {
         setIsLoading(true);
@@ -37,19 +40,34 @@ export const ArticleCard = ({ article, setArticle }) => {
         };
         return new Date(dateString).toLocaleDateString('en-GB', options);
     };
-
     
     const handleVote = (voteChange) => {
+        if ((voteChange === 1 && hasUpvoted) || (voteChange === -1 && hasDownvoted)) {
+            return;
+        }
+
         setArticle((currentArticleData) => {
-            return { ...currentArticleData, votes: currentArticleData.votes + voteChange };
-        });
-        patchVote(article_id, voteChange)
-        .catch((error) => {
-            setError(error);
-            setArticle((currentArticleData) => {
-                return { ...currentArticleData, votes: currentArticleData.votes - voteChange };
+            if (voteChange === 1) {
+                setHasUpvoted(true);
+            } else if (voteChange === -1) {
+                setHasDownvoted(true);
+            }
+                return { ...currentArticleData, votes: currentArticleData.votes + voteChange };
             });
-        });
+       
+        patchVote(article.article_id, voteChange)
+        .catch((error) => {
+            if (voteChange === 1) {
+                setHasUpvoted(false);
+            } else if (voteChange === -1) {
+                setHasDownvoted(false);
+            }
+                setError(error);
+                setArticle((currentArticleData) => {
+                    return { ...currentArticleData, votes: currentArticleData.votes - voteChange };
+                });
+        }); 
+       
     };
     
     if (isLoading) {
@@ -67,18 +85,21 @@ export const ArticleCard = ({ article, setArticle }) => {
                     <h1>{article.title}</h1>
                     <p id="topic">{article.topic}</p>
                     <img src={article.article_img_url} alt={article.title} />
-                    <p>By {article.author}</p>
+                    <p id="author">By {article.author}</p>
+                    <p>{formatDate(article.created_at)}</p>
                     <p>{article.body}</p>
-                    <p>Created at: {formatDate(article.created_at)}</p>
-                    <div>
-                        {user.username?(
+                    <div className="vote_buttons">
+                        {user.username ? (
                             <>
-                        <button onClick={() => handleVote(1)}>Upvote ✅</button>
-                        <button onClick={() => handleVote(-1)}>Downvote ❌</button>
-                            </>):(<p>Please log in for vote</p>)}
-                        <p>Votes: {article.votes}</p>
+                                <button onClick={() => handleVote(1)}>Upvote ✅</button>
+                                <button onClick={() => handleVote(-1)}>Downvote ❌</button>
+                            </>
+                        ) : (
+                            <p>Please log in to vote</p>
+                        )}
+                        <p className="votes">Votes: {article.votes}</p>
                     </div>
-                    <p>Comments: {article.comment_count}</p>
+                    <p className="comment_count">Comments: {article.comment_count}</p>
                 </section>
             )}
             <section className="article_comment">

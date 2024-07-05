@@ -5,6 +5,8 @@ import { getCommentById, postComment } from "../../Api";
 import { Loading } from "./Loading";
 import { CommentCard } from "./CommentCard";
 import { ErrorContext } from "../../contexts/ErrorContext";
+import "../../css/CommentSection.css";
+
 
 export const CommentSection = ({ article, setArticle }) => {
     const { user } = useContext(UserContext);
@@ -63,8 +65,9 @@ export const CommentSection = ({ article, setArticle }) => {
       }
 
 
-    return (
-        <>
+      return (
+        <div className="comment_section">
+            <hr className="separate_line" />
             {user.username ? (
                 <form className="comment_form" onSubmit={handleCommentSubmit}>
                     <h3 type="button" onClick={() => navigate("/user")} className="username_button">
@@ -83,7 +86,7 @@ export const CommentSection = ({ article, setArticle }) => {
                 <form className="comment_form" onSubmit={(e) => e.preventDefault()}>
                     <section className="login_for_comment">
                         <button type="button" onClick={() => navigate("/log_in", { state: { from: location } })}>
-                            Log In
+                            Log In / Sign Up
                         </button>
                     </section>
                     <textarea
@@ -96,6 +99,7 @@ export const CommentSection = ({ article, setArticle }) => {
                 </form>
             )}
             <CommentCard comments={comments} setComments={setComments} user={user} article_id={article.article_id} setError={setError} setArticle={setArticle}/>
-        </>
+        </div> 
     );
+    
 };
