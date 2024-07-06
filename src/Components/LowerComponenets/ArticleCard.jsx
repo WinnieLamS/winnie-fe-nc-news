@@ -13,8 +13,7 @@ export const ArticleCard = ({ article, setArticle }) => {
     const { error, setError } = useContext(ErrorContext);
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-    const [hasUpvoted, setHasUpvoted] = useState(false);
-    const [hasDownvoted, setHasDownvoted] = useState(false);
+    const [voted, setVoted] = useState(false);
 
     useEffect(() => {
         setIsLoading(true);
@@ -42,15 +41,13 @@ export const ArticleCard = ({ article, setArticle }) => {
     };
     
     const handleVote = (voteChange) => {
-        if ((voteChange === 1 && hasUpvoted) || (voteChange === -1 && hasDownvoted)) {
-            return;
-        }
+        
 
         setArticle((currentArticleData) => {
             if (voteChange === 1) {
-                setHasUpvoted(true);
+                setVoted(true);
             } else if (voteChange === -1) {
-                setHasDownvoted(true);
+                setVoted(false);
             }
                 return { ...currentArticleData, votes: currentArticleData.votes + voteChange };
             });
@@ -58,9 +55,9 @@ export const ArticleCard = ({ article, setArticle }) => {
         patchVote(article.article_id, voteChange)
         .catch((error) => {
             if (voteChange === 1) {
-                setHasUpvoted(false);
+                setVoted(false);
             } else if (voteChange === -1) {
-                setHasDownvoted(false);
+                setVoted(true);
             }
                 setError(error);
                 setArticle((currentArticleData) => {
@@ -78,7 +75,7 @@ export const ArticleCard = ({ article, setArticle }) => {
         return <Error error={error} />;
       }
 
-    return (
+      return (
         <>
             {article && (
                 <section className="article_card">
@@ -90,14 +87,14 @@ export const ArticleCard = ({ article, setArticle }) => {
                     <p>{article.body}</p>
                     <div className="vote_buttons">
                         {user.username ? (
-                            <>
-                                <button onClick={() => handleVote(1)}>Upvote ✅</button>
-                                <button onClick={() => handleVote(-1)}>Downvote ❌</button>
+                            <>{!voted?(<button className="vote_button" onClick={() => handleVote(1)}>Vote ✅</button>
+                           ):(
+                            <button className="vote_button" onClick={() => handleVote(-1)}>Unvote ❌</button>)}    
                             </>
                         ) : (
-                            <p>Please log in to vote</p>
+                            <span className="login_message">Please log in to vote</span>
                         )}
-                        <p className="votes">Votes: {article.votes}</p>
+                        <span className="votes">Votes: {article.votes}</span>
                     </div>
                     <p className="comment_count">Comments: {article.comment_count}</p>
                 </section>
@@ -106,5 +103,5 @@ export const ArticleCard = ({ article, setArticle }) => {
                 <CommentSection article={article} setArticle={setArticle} setError={setError}/>
             </section>
         </>
-    );
+    );    
 };
